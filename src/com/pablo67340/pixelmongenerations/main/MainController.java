@@ -7,11 +7,11 @@ package com.pablo67340.pixelmongenerations.main;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 
 import javafx.scene.control.Tab;
 
@@ -26,13 +26,16 @@ import javafx.stage.Stage;
 public class MainController implements Initializable {
 
     @FXML
-    public Tab tab1;
+    private Button btnClose, btnMinimize;
+    
+    @FXML
+    private Tab tab1;
 
     @FXML
-    public WebView webHome;
+    private WebView webHome;
 
     @FXML
-    public Stage thisStage;
+    private Stage thisStage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -44,7 +47,11 @@ public class MainController implements Initializable {
     }
 
     public void setStage(Stage stage) {
-        thisStage = stage;
+        this.thisStage = stage;
+    }
+    
+    public Stage getStage(){
+        return thisStage;
     }
 
     public void showStage() {
@@ -56,5 +63,15 @@ public class MainController implements Initializable {
         //txtLauncherLog.textProperty().addListener((ObservableValue<?> observable, Object oldValue, Object newValue) -> {
         // txtLauncherLog.setScrollTop(Double.MAX_VALUE);
         // });
+    }
+    
+    @FXML
+    private void btnCloseAction(ActionEvent event){
+        System.exit(1);
+    }
+    
+    @FXML
+    private void btnMinimizeAction(ActionEvent event){
+        getStage().setIconified(true);
     }
 }
