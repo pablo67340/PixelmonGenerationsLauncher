@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane id="AnchorPane" fx:id="root" maxHeight="628.0" maxWidth="974.0" minHeight="628.0" minWidth="974.0" prefHeight="628.0" prefWidth="974.0" style="-fx-background-color: grey;" styleClass="jfx-tab-pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pablo67340.pixelmongenerations.main.MainController">
+   <children>
+      <JFXTabPane layoutX="-2.0" layoutY="-1.0" prefHeight="628.0" prefWidth="976.0" stylesheets="@../assets/custom.css">
+         <tabs>
+            <Tab text="Home">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <WebView fx:id="webHome" layoutX="6.0" prefHeight="522.0" prefWidth="968.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Untitled Tab">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+   </children>
+</AnchorPane>
