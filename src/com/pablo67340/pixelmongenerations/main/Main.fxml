@@ -46,5 +46,6 @@
       </JFXTabPane>
       <JFXButton fx:id="btnClose" layoutX="950.0" onAction="#btnCloseAction" text="X" />
       <JFXButton fx:id="btnMinimize" layoutX="927.0" onAction="#btnMinimizeAction" prefHeight="25.0" prefWidth="24.0" text="-" />
+      <AnchorPane layoutX="215.0" onMouseDragged="#mouseDragAction" onMousePressed="#dragAction" prefHeight="33.0" prefWidth="708.0" />
    </children>
 </AnchorPane>

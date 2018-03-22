@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Tab;
+import javafx.scene.input.MouseEvent;
 
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -36,6 +37,11 @@ public class MainController implements Initializable {
 
     @FXML
     private Stage thisStage;
+    
+    
+    // NON FXML VARS
+    private Double initialX, initialY;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -55,7 +61,7 @@ public class MainController implements Initializable {
     }
 
     public void showStage() {
-        thisStage.show();
+        getStage().show();
         //txtGameLog.textProperty().addListener((ObservableValue<?> observable, Object oldValue, Object newValue) -> {
         //  txtGameLog.setScrollTop(Double.MAX_VALUE);
         //});
@@ -73,5 +79,15 @@ public class MainController implements Initializable {
     @FXML
     private void btnMinimizeAction(ActionEvent event){
         getStage().setIconified(true);
+    }
+
+    public void mouseDragAction(MouseEvent e) {
+        getStage().getScene().getWindow().setX(e.getScreenX() - initialX);
+        getStage().getScene().getWindow().setY(e.getScreenY() - initialY);
+    }
+
+    public void dragAction(MouseEvent event) {
+        this.initialX = event.getSceneX();
+        this.initialY = event.getSceneY();
     }
 }
