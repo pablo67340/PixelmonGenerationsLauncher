@@ -5,6 +5,7 @@
  */
 package com.pablo67340.pixelmongenerations.main;
 
+import com.pablo67340.pixelmongenerations.runnables.Updater;
 import java.net.URL;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -12,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -21,10 +21,9 @@ import javafx.stage.StageStyle;
  * @author Bryce
  */
 public class Main extends Application {
-    
-    
+
     private MainController controller;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         System.out.println("OS.NAME: " + System.getProperty("os.name"));
@@ -39,12 +38,13 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
-        stage.setTitle("PixelmonGenerations v1");
+        stage.setTitle("PixelmonGenerations v1.0");
         //stage.getIcons().add(new Image(getClass().getResourceAsStream("resources/img/icon.png")));
-        
+
         controller.setStage(stage);
         controller.showStage();
-        //controller.INSTANCE.updater.INSTANCE.checkUpdates("5.2");
+        Updater updater = new Updater();
+        updater.checkUpdates("1.0");
         //controller.updateUI();
         Platform.setImplicitExit(false);
     }
@@ -55,5 +55,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

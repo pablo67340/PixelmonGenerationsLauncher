@@ -5,6 +5,7 @@
  */
 package com.pablo67340.pixelmongenerations.main;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -26,9 +27,10 @@ import javafx.stage.Stage;
  */
 public class MainController implements Initializable {
 
+    // FXML VARS \\
     @FXML
     private Button btnClose, btnMinimize;
-    
+
     @FXML
     private Tab tab1;
 
@@ -37,11 +39,13 @@ public class MainController implements Initializable {
 
     @FXML
     private Stage thisStage;
-    
-    
-    // NON FXML VARS
+
+    // NON FXML VARS \\
     private Double initialX, initialY;
-    
+
+    private static String GameDir;
+
+    private static MainController INSTANCE;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -50,13 +54,37 @@ public class MainController implements Initializable {
         webEngine.load("http://67.205.164.135/");
         webEngine.getHistory().setMaxSize(0);
         java.net.CookieHandler.setDefault(new java.net.CookieManager());
+        String dGameDir = "";
+        String OS = System.getProperty("os.name");
+        String DLetter;
+        String PCUser;
+        File file = new File(".").getAbsoluteFile();
+        File root = file.getParentFile();
+        while (root.getParentFile() != null) {
+            root = root.getParentFile();
+        }
+        if (OS.contains("Windows")) {
+
+            DLetter = root.getPath().replace("\\", "");
+            PCUser = System.getProperty("user.name");
+            dGameDir = DLetter + "/Users/" + PCUser + "/AppData/Roaming/.minecraft";
+        } else if (OS.contains("Linux")) {
+
+            PCUser = System.getProperty("user.name");
+            dGameDir = "/home/" + PCUser + "/.minecraft";
+        } else if (OS.contains("Mac")) {
+
+            dGameDir = "~/Library/Application Support/minecraft";
+        }
+        GameDir = dGameDir;
+        INSTANCE = this;
     }
 
     public void setStage(Stage stage) {
         this.thisStage = stage;
     }
-    
-    public Stage getStage(){
+
+    public Stage getStage() {
         return thisStage;
     }
 
@@ -70,14 +98,19 @@ public class MainController implements Initializable {
         // txtLauncherLog.setScrollTop(Double.MAX_VALUE);
         // });
     }
-    
+
     @FXML
-    private void btnCloseAction(ActionEvent event){
+    private void btnLoginAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void btnCloseAction(ActionEvent event) {
         System.exit(1);
     }
-    
+
     @FXML
-    private void btnMinimizeAction(ActionEvent event){
+    private void btnMinimizeAction(ActionEvent event) {
         getStage().setIconified(true);
     }
 
@@ -89,5 +122,13 @@ public class MainController implements Initializable {
     public void dragAction(MouseEvent event) {
         this.initialX = event.getSceneX();
         this.initialY = event.getSceneY();
+    }
+
+    public static MainController getInstance() {
+        return INSTANCE;
+    }
+
+    public static String getGameDirectory() {
+        return GameDir;
     }
 }
