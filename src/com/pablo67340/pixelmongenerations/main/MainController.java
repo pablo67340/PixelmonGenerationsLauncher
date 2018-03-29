@@ -5,7 +5,10 @@
  */
 package com.pablo67340.pixelmongenerations.main;
 
+import com.pablo67340.pixelmongenerations.utils.LauncherProfiles;
+import com.pablo67340.pixelmongenerations.utils.MojangUtil;
 import java.io.File;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -13,8 +16,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 import javafx.scene.web.WebEngine;
@@ -29,7 +34,7 @@ public class MainController implements Initializable {
 
     // FXML VARS \\
     @FXML
-    private Button btnClose, btnMinimize;
+    private Button btnClose, btnMinimize, btnLogin;
 
     @FXML
     private Tab tab1;
@@ -40,12 +45,23 @@ public class MainController implements Initializable {
     @FXML
     private Stage thisStage;
 
+    @FXML
+    private ComboBox txtUsername;
+    @FXML
+    private TextField txtPassword;
+
     // NON FXML VARS \\
     private Double initialX, initialY;
 
     private static String GameDir;
 
     private static MainController INSTANCE;
+
+    private String processID;
+
+    private LauncherProfiles login;
+
+    private MojangUtil mj;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,12 +80,10 @@ public class MainController implements Initializable {
             root = root.getParentFile();
         }
         if (OS.contains("Windows")) {
-
             DLetter = root.getPath().replace("\\", "");
             PCUser = System.getProperty("user.name");
             dGameDir = DLetter + "/Users/" + PCUser + "/AppData/Roaming/.minecraft";
         } else if (OS.contains("Linux")) {
-
             PCUser = System.getProperty("user.name");
             dGameDir = "/home/" + PCUser + "/.minecraft";
         } else if (OS.contains("Mac")) {
@@ -78,6 +92,10 @@ public class MainController implements Initializable {
         }
         GameDir = dGameDir;
         INSTANCE = this;
+        login = new LauncherProfiles();
+        login.load();
+        mj = new MojangUtil();
+
     }
 
     public void setStage(Stage stage) {
@@ -86,6 +104,14 @@ public class MainController implements Initializable {
 
     public Stage getStage() {
         return thisStage;
+    }
+
+    public ComboBox getUsernameBox() {
+        return txtUsername;
+    }
+
+    public TextField getPasswordBox() {
+        return txtPassword;
     }
 
     public void showStage() {
@@ -101,7 +127,23 @@ public class MainController implements Initializable {
 
     @FXML
     private void btnLoginAction(ActionEvent event) {
-
+        if (btnLogin.getText().equalsIgnoreCase("Login")) {
+            if (getPasswordBox().getText().length() == 32) {
+                if (mj.isUserValid(getPasswordBox().getText(), login.getClientToken())){
+                    btnLogin.setText("Play");
+                }else{
+                    // Incorrect login
+                }
+            } else {
+                if (mj.attemptLogin((String) getUsernameBox().getSelectionModel().getSelectedItem(), getPasswordBox().getText())) {
+                    btnLogin.setText("Play");
+                }else{
+                    // Incorrect login
+                }
+            }
+        } else {
+            // Play the game here!
+        }
     }
 
     @FXML
@@ -112,6 +154,11 @@ public class MainController implements Initializable {
     @FXML
     private void btnMinimizeAction(ActionEvent event) {
         getStage().setIconified(true);
+    }
+
+    @FXML
+    private void txtUsernameAction(ActionEvent e) {
+        getPasswordBox().setText("");
     }
 
     public void mouseDragAction(MouseEvent e) {
@@ -130,5 +177,9 @@ public class MainController implements Initializable {
 
     public static String getGameDirectory() {
         return GameDir;
+    }
+
+    public LauncherProfiles getLauncherProfiles() {
+        return login;
     }
 }

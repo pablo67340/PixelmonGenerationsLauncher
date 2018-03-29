@@ -5,6 +5,7 @@ import com.pablo67340.pixelmongenerations.utils.Connections;
 import com.pablo67340.pixelmongenerations.utils.Download;
 import java.io.File;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,8 +16,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -41,10 +46,10 @@ public final class Updater {
     public void downloadUpdate() {
         downloadUpdate = new Thread(() -> {
             try {
-                url = new URL("http://minecraftpl.us/launcher/MCPlus.jar");
+                url = new URL("http://67.205.164.135/launcher/Launcher.jar");
                 Download downloader = new Download();
                 downloader.startDownload(url.toString(), MainController.getGameDirectory() + "/Launcher/Updates/", "update");
-                downloadUpdate.interrupt();
+
             } catch (MalformedURLException ex) {
                 System.out.println("Error grabbing update: " + ex.getMessage());
             }
@@ -52,6 +57,22 @@ public final class Updater {
         });
         downloadUpdate.setDaemon(true);
         downloadUpdate.start();
+
+        Thread installer = new Thread(() -> {
+            install();
+        });
+
+        try {
+            downloadUpdate.join(3000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Updater.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Updater.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        installer.start();
 
     }
 
@@ -63,6 +84,7 @@ public final class Updater {
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
+        System.exit(1);
     }
 
     public void checkUpdates(String currentVersion) {
@@ -80,7 +102,7 @@ public final class Updater {
         } catch (ZipException e) {
             System.out.println("Couldnt Extract saver!");
         }
-        List<String> lines = Arrays.asList(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+        List<String> lines = Arrays.asList(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), StringUtils.substringBefore(ManagementFactory.getRuntimeMXBean().getName(), "@"));
         Path file2 = Paths.get(destination + "/location.txt");
         try {
             Files.write(file2, lines, Charset.forName("UTF-8"));
@@ -90,7 +112,7 @@ public final class Updater {
 
         String version = getOnlineVersion();
         System.out.println("Current: " + currentVersion + " online: " + version);
-        if (getOnlineVersion().equalsIgnoreCase(currentVersion)) {
+        if (version.equalsIgnoreCase(currentVersion)) {
             // Do nothing, All up to date!
             //MainController.getInstance().printLConsole("[Updater] Launcher is up to date!");
         } else {

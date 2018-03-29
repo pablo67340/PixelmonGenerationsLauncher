@@ -6,6 +6,7 @@
 package com.pablo67340.pixelmongenerations.main;
 
 import com.pablo67340.pixelmongenerations.runnables.Updater;
+
 import java.net.URL;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -38,13 +39,13 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
-        stage.setTitle("PixelmonGenerations v1.0");
+        stage.setTitle("PixelmonGenerations v1.2");
         //stage.getIcons().add(new Image(getClass().getResourceAsStream("resources/img/icon.png")));
 
         controller.setStage(stage);
         controller.showStage();
         Updater updater = new Updater();
-        updater.checkUpdates("1.0");
+        updater.checkUpdates("1.2");
         //controller.updateUI();
         Platform.setImplicitExit(false);
     }

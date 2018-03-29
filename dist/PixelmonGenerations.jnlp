@@ -8,10 +8,12 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="PixelmonGenerations.jar" size="354240" download="eager" />
+    <jar href="PixelmonGenerations.jar" size="627673" download="eager" />
     <jar href="lib\commons-io-2.4.jar" size="185140" download="eager" />
+    <jar href="lib\commons-lang-2.6.jar" size="284220" download="eager" />
     <jar href="lib\jddl-0.7.1.jar" size="28221" download="eager" />
     <jar href="lib\jfoenix.jar" size="2365385" download="eager" />
+    <jar href="lib\json-simple-1.1.jar" size="16046" download="eager" />
     <jar href="lib\zip4j_1.3.2.jar" size="131025" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="PixelmonGenerations" >
