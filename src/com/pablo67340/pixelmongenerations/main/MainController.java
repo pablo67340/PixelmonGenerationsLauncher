@@ -5,12 +5,18 @@
  */
 package com.pablo67340.pixelmongenerations.main;
 
+
 import com.pablo67340.pixelmongenerations.utils.LauncherProfiles;
 import com.pablo67340.pixelmongenerations.utils.MojangUtil;
+import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.javafx.BrowserView;
+
 import java.io.File;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -21,8 +27,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
@@ -37,18 +43,22 @@ public class MainController implements Initializable {
     private Button btnClose, btnMinimize, btnLogin;
 
     @FXML
-    private Tab tab1;
+    private Tab tab1, btnProfile;
 
     @FXML
-    private WebView webHome;
+    private WebView webHome, webProfile;
 
     @FXML
     private Stage thisStage;
 
     @FXML
     private ComboBox txtUsername;
+    
     @FXML
     private TextField txtPassword;
+
+    @FXML
+    public AnchorPane anchProfile, anchMain;
 
     // NON FXML VARS \\
     private Double initialX, initialY;
@@ -63,13 +73,11 @@ public class MainController implements Initializable {
 
     private MojangUtil mj;
 
+    //private CleanBrowser browserCleaner = new CleanBrowser();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        WebEngine webEngine = webHome.getEngine();
-        webEngine.setUserAgent("Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.44 (KHTML, like Gecko) Chrome/8.0 JavaFX/8.0 Safari/537.44");
-        webEngine.load("http://67.205.164.135/");
-        webEngine.getHistory().setMaxSize(0);
-        java.net.CookieHandler.setDefault(new java.net.CookieManager());
+
+        
         String dGameDir = "";
         String OS = System.getProperty("os.name");
         String DLetter;
@@ -95,11 +103,23 @@ public class MainController implements Initializable {
         login = new LauncherProfiles();
         login.load();
         mj = new MojangUtil();
+        btnProfile.setDisable(true);
+        loadBrowser();
+    }
 
+    public void loadBrowser() {
+        Browser browser2 = new Browser();
+        BrowserView view2 = new BrowserView(browser2);
+        anchMain.getChildren().add(view2);
+        view2.setPrefWidth(968);
+        view2.setPrefHeight(522);
+        view2.setLayoutX(6);
+        browser2.loadURL("http://67.205.164.135/");
     }
 
     public void setStage(Stage stage) {
         this.thisStage = stage;
+
     }
 
     public Stage getStage() {
@@ -129,16 +149,28 @@ public class MainController implements Initializable {
     private void btnLoginAction(ActionEvent event) {
         if (btnLogin.getText().equalsIgnoreCase("Login")) {
             if (getPasswordBox().getText().length() == 32) {
-                if (mj.isUserValid(getPasswordBox().getText(), login.getClientToken())){
+                if (mj.isUserValid(getPasswordBox().getText(), login.getClientToken())) {
                     btnLogin.setText("Play");
-                }else{
+                    Browser browser = new Browser();
+                    BrowserView view = new BrowserView(browser);
+
+                    anchProfile.getChildren().add(view);
+                    view.setMinSize(300, 500);
+                    view.setLayoutY(10);
+                    btnProfile.setDisable(false);
+                    browser.getCacheStorage().clearCache();
+                    browser.loadURL("http://67.205.164.135/skin/");
+                    //Main.getInstance().getBrowserCleaner().addBrowser(browser);
+
+                } else {
                     // Incorrect login
                 }
             } else {
                 if (mj.attemptLogin((String) getUsernameBox().getSelectionModel().getSelectedItem(), getPasswordBox().getText())) {
                     btnLogin.setText("Play");
-                }else{
-                    // Incorrect login
+                } else {
+                    txtPassword.setText("");
+                    // Set label to say "relogin" as the accessToken has been revoked. 
                 }
             }
         } else {
@@ -147,8 +179,13 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    private void btnReloadAction(ActionEvent event) {
+
+    }
+
+    @FXML
     private void btnCloseAction(ActionEvent event) {
-        System.exit(1);
+        Platform.exit();
     }
 
     @FXML
@@ -182,4 +219,5 @@ public class MainController implements Initializable {
     public LauncherProfiles getLauncherProfiles() {
         return login;
     }
+
 }

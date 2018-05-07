@@ -6,8 +6,14 @@
 package com.pablo67340.pixelmongenerations.main;
 
 import com.pablo67340.pixelmongenerations.runnables.Updater;
+import com.pablo67340.pixelmongenerations.utils.CleanBrowser;
+import com.teamdev.jxbrowser.chromium.Browser;
+
+import com.teamdev.jxbrowser.chromium.BrowserCore;
+
 
 import java.net.URL;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -25,8 +31,23 @@ public class Main extends Application {
 
     private MainController controller;
 
+    private Stage thisStage;
+    
+    private static CleanBrowser browserCleaner = new CleanBrowser();
+   
+    
+   
+    
+    @Override
+    public void init() throws Exception {
+        // On Mac OS X Chromium engine must be initialized in non-UI thread.
+            BrowserCore.initialize();
+        
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
+        thisStage = stage;
         System.out.println("OS.NAME: " + System.getProperty("os.name"));
         URL location = getClass().getResource("Main.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -48,6 +69,7 @@ public class Main extends Application {
         updater.checkUpdates("1.2");
         //controller.updateUI();
         Platform.setImplicitExit(false);
+ 
     }
 
     /**
@@ -56,5 +78,23 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    @Override
+    public void stop() throws Exception {
+        thisStage.hide();
+      
+        browserCleaner.getBrowsers().forEach((browser) -> {
+            browser.dispose();
+        });
+        
+    }
+    
+    public static CleanBrowser getBrowserCleaner(){
+        return browserCleaner;
+    }
+   
+    
+ 
+            
 
 }

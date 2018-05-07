@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONObject;
@@ -65,7 +66,15 @@ public class MojangUtil {
             response = Connections.HTTPPostResponse(new URL("https://authserver.mojang.com/authenticate"), obj.toJSONString());
             System.out.println("Response: " + response);
             loginResponse = response;
+            JSONParser parser = new JSONParser();
+            JSONObject responseObj = (JSONObject)parser.parse(response);
+            String accessToken = (String)responseObj.get("accessToken");
+            JSONObject selectedProfile = (JSONObject)responseObj.get("selectedProfile");
+            String uuid = (String)selectedProfile.get("id");
+            String name = (String)selectedProfile.get("name");
+            MainController.getInstance().getLauncherProfiles().getAuthenticationDatabase().buildUser(UUID.randomUUID().toString(), accessToken, (String)MainController.getInstance().getUsernameBox().getSelectionModel().getSelectedItem(), uuid, name);
             updateLauncherProfiles();
+            MainController.getInstance().getLauncherProfiles().saveLauncherProfiles();
             return true;
         } catch (MalformedURLException ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -116,6 +125,47 @@ public class MojangUtil {
         }
     }
 
+    
+        public void updateLauncherProfile(String key2) {
+        JSONParser parser = new JSONParser();
+        try {
+            JSONObject obj = (JSONObject) parser.parse(getLoginResponse());
+            JSONObject obj2 = MainController.getInstance().getLauncherProfiles().getJSONObject();
+            JSONObject selectedProfile = (JSONObject) obj.get("selectedProfile");
+            String accessToken = (String) obj.get("accessToken");
+            String clientToken = (String) obj.get("clientToken");
+            String uuid = (String) selectedProfile.get("id");
+            String displayName = (String) selectedProfile.get("name");
+
+            for (Entry<String, AuthedUser> entry : MainController.getInstance().getLauncherProfiles().getAuthenticationDatabase().getAuthedUsers().entrySet()) {
+                String key = entry.getKey();
+                AuthedUser user = entry.getValue();
+                if (user.getUUID().equalsIgnoreCase(uuid)) {
+                    System.out.println("key: " + key + " EQUAL UUID's");
+                    user.setAccessToken(accessToken);
+                    user.setDisplayName(key);
+
+                    JSONObject authdb = (JSONObject) obj2.get("authenticationDatabase");
+
+                    System.out.println("key: " + key);
+                    JSONObject profile = (JSONObject) authdb.get(key);
+                    profile.put("accessToken", accessToken);
+
+                    JSONObject profiles = (JSONObject) profile.get("profiles");
+                    JSONObject uid = (JSONObject) profiles.get(uuid);
+                    uid.put("displayName", displayName);
+                    System.out.println("final updated: " + obj2.toJSONString());
+                    MainController.getInstance().getLauncherProfiles().setJSONObject(obj2);
+                    MainController.getInstance().getLauncherProfiles().saveLauncherProfiles();
+                } else {
+                    System.out.println("Searching ID: " + key + " NOT EQUAL");
+                }
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(MojangUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public String getLoginResponse() {
         return loginResponse;
     }
