@@ -15,22 +15,20 @@ import com.pablo67340.pixelmongenerations.utils.Logger;
 import com.pablo67340.pixelmongenerations.auth.MojangUtil;
 import com.pablo67340.pixelmongenerations.utils.ResponsePrinter;
 import com.pablo67340.pixelmongenerations.utils.Settings;
-
+import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.BrowserPreferences;
+import com.teamdev.jxbrowser.chromium.javafx.BrowserView;
 
 import java.io.File;
-
 
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-
 import javafx.application.Platform;
 
-
 import javafx.event.ActionEvent;
-
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -91,7 +89,7 @@ public class MainController implements Initializable {
 
     @FXML
     public AnchorPane anchProfile, anchMain, root;
-    
+
     @FXML
     public ProgressBar prg1;
 
@@ -113,9 +111,9 @@ public class MainController implements Initializable {
     private Settings settings;
 
     private String currentLog = "Launcher";
-    
+
     private Map<Integer, GameLauncher> runningGames = new HashMap<>();
-    
+
     private CommandHandler commands = new CommandHandler();
 
     //private CleanBrowser browserCleaner = new CleanBrowser();
@@ -177,15 +175,15 @@ public class MainController implements Initializable {
         webPage.setBackgroundColor(0);
         webPage.setLocalStorageEnabled(false);
 
-        //   Browser browser2 = new Browser();
-        //   BrowserView view2 = new BrowserView(browser2);
-        //  BrowserPreferences prefs = browser2.getPreferences();
-        //   prefs.setTransparentBackground(true);
-        //   anchMain.getChildren().add(view2);
-        //   view2.setPrefWidth(968);
-        //   view2.setPrefHeight(522);
-        //  view2.setLayoutX(6);
-        //   browser2.loadURL("http://abstct.software/pixelmongenerations/launcher/");
+        Browser browser2 = new Browser();
+        BrowserView view2 = new BrowserView(browser2);
+        BrowserPreferences prefs = browser2.getPreferences();
+        prefs.setTransparentBackground(true);
+        anchMain.getChildren().add(view2);
+        view2.setPrefWidth(968);
+        view2.setPrefHeight(522);
+        view2.setLayoutX(6);
+        browser2.loadURL("http://abstct.software/pixelmongenerations/launcher/");
     }
 
     public void setStage(Stage stage) {
@@ -302,14 +300,14 @@ public class MainController implements Initializable {
     public ResponsePrinter getResponsePrinter() {
         return response;
     }
-    
-    public void setResponse(String input){
+
+    public void setResponse(String input) {
         Platform.runLater(() -> {
             txtResponse.setText(input);
         });
     }
-    
-    public void disablePlayButton(Boolean input){
+
+    public void disablePlayButton(Boolean input) {
         btnLogin.setDisable(input);
     }
 
@@ -345,24 +343,24 @@ public class MainController implements Initializable {
     public String getCurrentLog() {
         return currentLog;
     }
-    
-    public void showProgressBar(){
+
+    public void showProgressBar() {
         Platform.runLater(() -> {
             prg1.setVisible(true);
         });
     }
-    
-    public void hideProgressBar(){
+
+    public void hideProgressBar() {
         Platform.runLater(() -> {
             prg1.setVisible(false);
         });
     }
-    
-    public Map<Integer, GameLauncher> getRunningGames(){
+
+    public Map<Integer, GameLauncher> getRunningGames() {
         return runningGames;
     }
-    
-    public void clearCommands(){
+
+    public void clearCommands() {
         txtCommand.setText("");
     }
 
