@@ -16,18 +16,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.lang.StringUtils;
+import org.kamranzafar.jddl.DownloadListener;
 
 /**
  *
  * @author Bryce
  */
-public final class Updater {
+public final class Updater implements DownloadListener {
 
     protected Thread downloadUpdate;
     protected URL url;
@@ -39,40 +37,23 @@ public final class Updater {
 
     public static String getOnlineVersion() {
 
-        return Connections.HTTPResponse("http://67.205.164.135/launcher/getVersion.php");
+        return Connections.HTTPResponse("http://abstct.software/pixelmongenerations/launcher/getVersion.php");
 
     }
 
     public void downloadUpdate() {
         downloadUpdate = new Thread(() -> {
             try {
-                url = new URL("http://67.205.164.135/launcher/Launcher.jar");
+                url = new URL("http://abstct.software/pixelmongenerations/launcher/Launcher.jar");
                 Download downloader = new Download();
-                downloader.startDownload(url.toString(), MainController.getGameDirectory() + "/Launcher/Updates/", "update");
+                downloader.startDownload(url.toString(), MainController.getGameDirectory() + "/Launcher/Updates/", "update", this);
 
             } catch (MalformedURLException ex) {
                 System.out.println("Error grabbing update: " + ex.getMessage());
             }
 
         });
-        downloadUpdate.setDaemon(true);
         downloadUpdate.start();
-
-        Thread installer = new Thread(() -> {
-            install();
-        });
-
-        try {
-            downloadUpdate.join(3000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Updater.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            TimeUnit.SECONDS.sleep(5);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Updater.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        installer.start();
 
     }
 
@@ -93,6 +74,10 @@ public final class Updater {
         String password = "";
         File dir = new File(destination);
         dir.mkdirs();
+        File file = new File(destination + "/Updater.jar");
+        if (file.exists()) {
+            file.delete();
+        }
         try {
             ZipFile zipFile = new ZipFile(source);
             if (zipFile.isEncrypted()) {
@@ -119,5 +104,25 @@ public final class Updater {
             //MainController.getInstance().printLConsole("[Updater] Launcher requires an update!");
             downloadUpdate();
         }
+    }
+
+    @Override
+    public void onStart(String string, int i) {
+
+    }
+
+    @Override
+    public void onUpdate(int i, int i1) {
+
+    }
+
+    @Override
+    public void onComplete() {
+        install();
+    }
+
+    @Override
+    public void onCancel() {
+
     }
 }

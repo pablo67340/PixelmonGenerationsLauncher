@@ -7,10 +7,6 @@ package com.pablo67340.pixelmongenerations.main;
 
 import com.pablo67340.pixelmongenerations.runnables.Updater;
 import com.pablo67340.pixelmongenerations.utils.CleanBrowser;
-import com.teamdev.jxbrowser.chromium.Browser;
-
-import com.teamdev.jxbrowser.chromium.BrowserCore;
-
 
 import java.net.URL;
 
@@ -20,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -41,7 +38,7 @@ public class Main extends Application {
     @Override
     public void init() throws Exception {
         // On Mac OS X Chromium engine must be initialized in non-UI thread.
-            BrowserCore.initialize();
+            //BrowserCore.initialize();
         
     }
 
@@ -60,13 +57,13 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
-        stage.setTitle("PixelmonGenerations v1.2");
-        //stage.getIcons().add(new Image(getClass().getResourceAsStream("resources/img/icon.png")));
+        stage.setTitle("PixelmonGenerations v1.3");
+        stage.getIcons().add(new Image(getClass().getResource("/com/pablo67340/pixelmongenerations/assets/logo_original.png").toExternalForm()));
 
         controller.setStage(stage);
         controller.showStage();
         Updater updater = new Updater();
-        updater.checkUpdates("1.2");
+        updater.checkUpdates("1.3");
         //controller.updateUI();
         Platform.setImplicitExit(false);
  
@@ -83,9 +80,9 @@ public class Main extends Application {
     public void stop() throws Exception {
         thisStage.hide();
       
-        browserCleaner.getBrowsers().forEach((browser) -> {
-            browser.dispose();
-        });
+        //browserCleaner.getBrowsers().forEach((browser) -> {
+           // browser.dispose();
+       // });
         
     }
     

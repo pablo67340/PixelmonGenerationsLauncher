@@ -5,7 +5,6 @@
  */
 package com.pablo67340.pixelmongenerations.utils;
 
-import com.teamdev.jxbrowser.chromium.Browser;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,19 +14,19 @@ import java.util.List;
  */
 public final class CleanBrowser {
     
-    private static List<Browser> browsers;
+    //private static List<Browser> browsers;
     
-    public CleanBrowser(){
-        browsers = new ArrayList<>();
-    }
+    //public CleanBrowser(){
+        //browsers = new ArrayList<>();
+    //}
     
-    public List<Browser> getBrowsers(){
-        return browsers;
-    }
+    //public List<Browser> getBrowsers(){
+        //return browsers;
+    //}
     
-    public void addBrowser(Browser input){
-        browsers.add(input);
-    }
+   // public void addBrowser(Browser input){
+        //browsers.add(input);
+    //}
     
     
 }

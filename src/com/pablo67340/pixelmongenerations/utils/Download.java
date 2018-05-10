@@ -23,50 +23,21 @@ public final class Download {
     public String currentDownload = "";
     public ArrayList<String> complete = new ArrayList<>();
     public Boolean isDownloading = false;
+    public DownloadTask dt;
 
     public void Download() {
 
     }
 
-    public void startDownload(String url, String path, String name) {
+    public void startDownload(String url, String path, String name, DownloadListener list) {
         try {
             DirectDownloader dd = new DirectDownloader();
 
             url2 = url;
             String file = url2;
             String out = path + file.substring(file.lastIndexOf('/') + 1);
-
-            dd.download(new DownloadTask(new URL(file), new FileOutputStream(out), new DownloadListener() {
-                String fname;
-                Integer size;
-
-                @Override
-                public void onUpdate(int bytes, int totalDownloaded) {
-                    progress = (double) totalDownloaded / size;
-                }
-
-                @Override
-                public void onStart(String fname, int size) {
-                    this.fname = fname;
-                    this.size = size;
-                    System.out.println("Downloading " + fname + " of size " + size);
-                    isDownloading = true;
-                }
-
-                @Override
-                public void onComplete() {
-                    System.out.println(fname + " downloaded");
-                    complete.add(name);
-                    isDownloading = false;
-
-                }
-
-                @Override
-                public void onCancel() {
-                    System.out.println(fname + " cancelled");
-                    isDownloading = false;
-                }
-            }));
+            dt = new DownloadTask(new URL(file), new FileOutputStream(out), list);
+            dd.download(dt);
 
             Thread t = new Thread(dd);
             t.start();
