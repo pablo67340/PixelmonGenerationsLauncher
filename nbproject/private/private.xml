@@ -3,11 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/commands/impl/ClearConsole.java</file>
+            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/auth/MojangUtil.java</file>
             <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/main/MainController.java</file>
-            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/commands/CommandHandler.java</file>
-            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/commands/impl/CloseLauncher.java</file>
-            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/commands/impl/LaunchGame.java</file>
+            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/utils/GameLauncher.java</file>
+            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/utils/LauncherProfiles.java</file>
+            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/assets/custom.css</file>
+            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/main/Main.java</file>
+            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/utils/Download.java</file>
+            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/assets/ListView.css</file>
+            <file>file:/C:/Users/Bryce/Documents/NetBeansProjects/PixelmonGenerations/src/com/pablo67340/pixelmongenerations/utils/Settings.java</file>
         </group>
     </open-files>
 </project-private>

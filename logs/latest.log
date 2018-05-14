@@ -1,0 +1,20 @@
+[05:22:29] [main/INFO]: Setting user: Plugineer
+[05:22:32] [main/WARN]: Skipping bad option: lastServer:
+[05:22:32] [main/INFO]: LWJGL Version: 2.9.4
+[05:22:36] [main/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Pixelmon
+[05:22:39] [Sound Library Loader/INFO]: Starting up SoundSystem...
+[05:22:39] [Thread-6/INFO]: Initializing LWJGL OpenAL
+[05:22:39] [Thread-6/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[05:22:39] [Thread-6/INFO]: OpenAL initialized.
+[05:22:40] [Sound Library Loader/INFO]: Sound engine started
+[05:22:42] [main/WARN]: Texture pixelmon:textures/sprites/pokemon/384-mega.png with size 38x38 will have visual artifacts at mip level 4, it can only support level 1. Please report to the mod author that the texture should be some multiple of 16x16.
+[05:22:42] [main/WARN]: Texture pixelmon:textures/sprites/pokemon/215-special.png with size 22x22 will have visual artifacts at mip level 4, it can only support level 1. Please report to the mod author that the texture should be some multiple of 16x16.
+[05:22:42] [main/WARN]: Texture pixelmon:textures/sprites/pokemon/383-primal.png with size 36x36 will have visual artifacts at mip level 4, it can only support level 2. Please report to the mod author that the texture should be some multiple of 16x16.
+[05:22:43] [main/WARN]: Texture pixelmon:textures/sprites/shinypokemon/383-primal.png with size 36x36 will have visual artifacts at mip level 4, it can only support level 2. Please report to the mod author that the texture should be some multiple of 16x16.
+[05:22:43] [main/WARN]: Texture pixelmon:textures/sprites/shinypokemon/215-special.png with size 22x22 will have visual artifacts at mip level 4, it can only support level 1. Please report to the mod author that the texture should be some multiple of 16x16.
+[05:22:43] [main/WARN]: Texture pixelmon:textures/sprites/pokemon/461-special.png with size 22x22 will have visual artifacts at mip level 4, it can only support level 1. Please report to the mod author that the texture should be some multiple of 16x16.
+[05:22:43] [main/WARN]: Texture pixelmon:textures/sprites/pokemon/254-mega.png with size 37x37 will have visual artifacts at mip level 4, it can only support level 0. Please report to the mod author that the texture should be some multiple of 16x16.
+[05:22:44] [main/WARN]: Texture pixelmon:textures/sprites/shinypokemon/461-special.png with size 22x22 will have visual artifacts at mip level 4, it can only support level 1. Please report to the mod author that the texture should be some multiple of 16x16.
+[05:22:44] [main/WARN]: Texture pixelmon:textures/sprites/pokemon/382-primal.png with size 36x36 will have visual artifacts at mip level 4, it can only support level 2. Please report to the mod author that the texture should be some multiple of 16x16.
+[05:22:44] [main/WARN]: Texture pixelmon:textures/sprites/shinypokemon/382-primal.png with size 36x36 will have visual artifacts at mip level 4, it can only support level 2. Please report to the mod author that the texture should be some multiple of 16x16.
+[05:22:45] [main/INFO]: Created: 4096x2048 textures-atlas

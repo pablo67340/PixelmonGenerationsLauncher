@@ -12,7 +12,6 @@
 
 .jfx-combo-box {
 	-fx-background-color: rgba(0, 0, 0, 0.52);
-        -fx-text-fill: WHITE;
 }
 
 .test {
@@ -21,4 +20,8 @@
 
 .jfx-progress-bar > .bar {
     -fx-background-color: #860086;
+}
+
+.combo-box-base .text{
+-fx-text-fill: white;
 }

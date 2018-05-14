@@ -6,6 +6,7 @@
 package com.pablo67340.pixelmongenerations.utils;
 
 import com.pablo67340.pixelmongenerations.main.MainController;
+import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
 /**
@@ -27,18 +28,23 @@ public final class ResponsePrinter {
      * Prints an error in the response label.
      */
     public void printError(String input) {
-        controller.getResponseLabel().setTextFill(Color.RED);
-        controller.getResponseLabel().setText(input);
-        controller.getResponseLabel().setVisible(true);
+        Platform.runLater(() -> {
+            controller.getResponseLabel().setTextFill(Color.RED);
+            controller.getResponseLabel().setText(input);
+            controller.getResponseLabel().setVisible(true);
+        });
     }
 
     /**
      * Prints green message in response label.
      */
     public void printSuccess(String input) {
-        controller.getResponseLabel().setTextFill(Color.GREEN);
-        controller.getResponseLabel().setText(input);
-        controller.getResponseLabel().setVisible(true);
+        Platform.runLater(() -> {
+            controller.getResponseLabel().setTextFill(Color.GREEN);
+            controller.getResponseLabel().setText(input);
+            controller.getResponseLabel().setVisible(true);
+        });
+
     }
 
     /**

@@ -73,6 +73,7 @@ public final class LauncherProfiles {
                 // HOORAY! Successful mapping of JSON file! Clean this crap up later...e
                 System.out.println("Building user: " + userKey + " with token: " + (String) profileObj.get("accessToken") + " with username: " + (String) profileObj.get("username") + " with uuid: " + uuid + " named: " + displayName);
                 MainController.getInstance().getUsernameBox().getItems().add(displayName);
+                MainController.getInstance().setProfileDetails(displayName, uuid);
 
                 MainController.getInstance().getUsernameBox().getSelectionModel().selectFirst();
                 MainController.getInstance().getPasswordBox().setText((String) profileObj.get("accessToken"));

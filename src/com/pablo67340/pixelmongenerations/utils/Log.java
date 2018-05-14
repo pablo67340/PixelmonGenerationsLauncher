@@ -54,7 +54,7 @@ public class Log {
     public void log(String input) {
         Platform.runLater(() -> {
             if (MainController.getInstance().getCurrentLog().equals(logName)) {
-                MainController.getInstance().getLog().appendText(input + "\n");
+                MainController.getInstance().getLog().appendText(tagify(getLogName()) + tagify("INFO") + tagify(getCurrentTime()) + " - " + input + "\n");
             } else {
                 currentLog += input + "\n";
             }

@@ -22,9 +22,9 @@ import org.json.simple.parser.ParseException;
 public class MojangUtil {
 
     private String loginResponse;
-    
+
     private final MainController controller;
-    
+
     private String currentSession;
 
     public MojangUtil() {
@@ -47,7 +47,7 @@ public class MojangUtil {
                 getController().getResponsePrinter().printError("Invalid Session. Please re-login.");
                 MainController.getInstance().getPasswordBox().clear();
                 return false;
-                
+
             }
 
         } catch (MalformedURLException ex) {
@@ -76,18 +76,23 @@ public class MojangUtil {
             response = Connections.HTTPPostResponse(new URL("https://authserver.mojang.com/authenticate"), obj.toJSONString());
             loginResponse = response;
             System.out.println(loginResponse);
-            JSONParser parser = new JSONParser();
-            JSONObject responseObj = (JSONObject) parser.parse(response);
-            String accessToken = (String) responseObj.get("accessToken");
-            JSONObject selectedProfile = (JSONObject) responseObj.get("selectedProfile");
-            String uuid = (String) selectedProfile.get("id");
-            String name = (String) selectedProfile.get("name");
-            String random = UUID.randomUUID().toString();
-            MainController.getInstance().getLauncherProfiles().setUserKey(random);
-            MainController.getInstance().getLauncherProfiles().getAuthenticationDatabase().buildUser(random, accessToken, (String) MainController.getInstance().getUsernameBox().getSelectionModel().getSelectedItem(), uuid, name);
-            updateLauncherProfiles();
-            MainController.getInstance().getLauncherProfiles().saveLauncherProfiles();
-            getController().getResponsePrinter().printSuccess("Challenge Success!");
+            if (!loginResponse.contains("Invalid")) {
+                JSONParser parser = new JSONParser();
+                JSONObject responseObj = (JSONObject) parser.parse(response);
+                String accessToken = (String) responseObj.get("accessToken");
+                JSONObject selectedProfile = (JSONObject) responseObj.get("selectedProfile");
+                String uuid = (String) selectedProfile.get("id");
+                String name = (String) selectedProfile.get("name");
+                String random = UUID.randomUUID().toString();
+                MainController.getInstance().getLauncherProfiles().setUserKey(random);
+                MainController.getInstance().getLauncherProfiles().getAuthenticationDatabase().buildUser(random, accessToken, (String) MainController.getInstance().getUsernameBox().getSelectionModel().getSelectedItem(), uuid, name);
+                MainController.getInstance().setProfileDetails(name, uuid);
+                updateLauncherProfiles();
+                MainController.getInstance().getLauncherProfiles().saveLauncherProfiles();
+                getController().getResponsePrinter().printSuccess("Challenge Success!");
+            } else {
+                return false;
+            }
             return true;
 
         } catch (MalformedURLException ex) {
@@ -119,27 +124,26 @@ public class MojangUtil {
                     user.setDisplayName(key);
 
                     JSONObject authdb = (JSONObject) obj2.get("authenticationDatabase");
-                    
-                    if (!authdb.containsKey(key)){
+
+                    if (!authdb.containsKey(key)) {
                         authdb.put(key, new JSONObject());
                     }
 
                     JSONObject profile = (JSONObject) authdb.get(key);
-                    
-                    System.out.println("access2: "+accessToken);
+
+                    System.out.println("access2: " + accessToken);
                     profile.put("accessToken", accessToken);
-                    
-                    if (!profile.containsKey("profiles")){
+
+                    if (!profile.containsKey("profiles")) {
                         profile.put("profiles", new JSONObject());
                     }
 
                     JSONObject profiles = (JSONObject) profile.get("profiles");
-                    
-                    
-                    if (!profiles.containsKey(uuid)){
+
+                    if (!profiles.containsKey(uuid)) {
                         profiles.put(uuid, new JSONObject());
                     }
-                    
+
                     JSONObject uid = (JSONObject) profiles.get(uuid);
                     uid.put("displayName", displayName);
                     System.out.println("final updated: " + obj2.toJSONString());
@@ -197,8 +201,8 @@ public class MojangUtil {
     public String getLoginResponse() {
         return loginResponse;
     }
-    
-    private MainController getController(){
+
+    private MainController getController() {
         return controller;
     }
 
